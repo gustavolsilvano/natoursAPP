@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import {
   height,
@@ -22,27 +22,45 @@ import { Feather } from '@expo/vector-icons';
 import getFullMonth from '../functions/getFullMonth';
 import { withNavigation } from 'react-navigation';
 
-const TourCard = ({ tour, navigation }) => {
-  // Handleling tour informations
+import LoadingContext from '../context/LoadingContext';
+import MessageContext from '../context/MessageContext';
 
+import server from '../api/server';
+
+const TourCard = ({ tour, navigation }) => {
+  // Adjusting tour informations
   const date = new Date(Date.parse(tour.startDates[0]));
   const year = date.getFullYear();
   const month = getFullMonth(date.getMonth());
+  tour.firstDateHandled = { year, month };
 
   const splitName = tour.name.split(' ');
-
   const firstName = `${splitName[0]} ${splitName[1]}`.toUpperCase();
   const secondName = splitName
     .slice(2)
     .join(' ')
     .toUpperCase();
-
-  const description = tour.description.split('.');
-  const firstParagraph = `${description[0]} ${description[1]}`;
-
   tour.firstName = firstName;
   tour.secondName = secondName;
-  tour.firstDateHandled = { year, month };
+
+  // CONTEXT
+  const handleLoading = useContext(LoadingContext);
+  const handleWarning = useContext(MessageContext);
+
+  // FUNCTION
+  const handleDetail = async () => {
+    handleLoading(true, 'Loading...');
+    try {
+      const response = await server.get(`/api/v1/tours/${tour._id}/reviews`);
+      const reviews = response.data.data.docs;
+      navigation.navigate('Detail', { tour, reviews });
+      handleLoading(false, '');
+    } catch (err) {
+      console.log('Error when getting review', err.response);
+      handleLoading(false, '');
+      handleWarning(true, err.response.message);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -131,7 +149,7 @@ const TourCard = ({ tour, navigation }) => {
           <Button
             style={styles.button}
             text="DETAILS"
-            callBack={() => navigation.navigate('Detail', { tour })}
+            callBack={handleDetail}
           />
         </View>
       </View>

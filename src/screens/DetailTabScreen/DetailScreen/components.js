@@ -70,7 +70,7 @@ const TourGuides = ({ tour }) => {
       <Text style={styles.textTitles}>YOUR TOUR GUIDES</Text>
       <ScrollView showsVerticalScrollIndicator={false}>
         {tour.guides.map(el => {
-          return <Guide guide={el} />;
+          return <Guide guide={el} key={el._id} />;
         })}
       </ScrollView>
     </View>

@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, Image } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { View } from 'react-native';
 
 import styles from './style';
 import {
-  imageTourURL,
   width,
   firstColor,
   firstColor_minor
@@ -12,6 +10,8 @@ import {
 import Header from '../../../components/Header';
 import { QuickFacts, TourDescription, TourGuides } from './components';
 import { ScrollView } from 'react-native-gesture-handler';
+
+import { HeaderDetail, BottomDetail } from '../components/HeaderBottomDetail';
 
 const DetailScreen = ({ navigation }) => {
   const tour = navigation.getParam('tour', null);
@@ -45,30 +45,7 @@ const DetailScreen = ({ navigation }) => {
     <View style={styles.container}>
       {/* HEADER */}
 
-      <View style={styles.containerHeader}>
-        <View style={styles.imageFilter} />
-        <Image
-          source={{ uri: `${imageTourURL}/${tour.imageCover}` }}
-          style={styles.cover}
-        />
-        <LinearGradient
-          colors={['rgba(119,204,113,.8)', 'rgba(76,193,152,.6)']}
-          start={[0, 0]}
-          end={[1, 1]}
-          style={styles.containerText1}
-        >
-          <Text style={styles.floatingText}>{tour.firstName}</Text>
-        </LinearGradient>
-        <LinearGradient
-          colors={['rgba(119,204,113,.8)', 'rgba(76,193,152,.6)']}
-          start={[0, 0]}
-          end={[1, 1]}
-          style={styles.containerText2}
-        >
-          <Text style={styles.floatingText}>{tour.secondName}</Text>
-        </LinearGradient>
-        <View style={styles.triangleCorner} />
-      </View>
+      <HeaderDetail tour={tour} />
 
       {/* BODY */}
 
@@ -95,22 +72,7 @@ const DetailScreen = ({ navigation }) => {
 
       {/* BOTTOM */}
 
-      <View style={styles.containerBottom}>
-        <View style={styles.triangleCornerDown} />
-        <Image
-          style={styles.bottomImages}
-          source={{ uri: `${imageTourURL}/${tour.images[0]}` }}
-        />
-        <Image
-          style={styles.bottomImages}
-          source={{ uri: `${imageTourURL}/${tour.images[1]}` }}
-        />
-
-        {/* <Image
-          style={styles.bottomImages}
-          source={{ uri: `${imageTourURL}/${tour.images[1]}` }}
-        /> */}
-      </View>
+      <BottomDetail tour={tour} />
     </View>
   );
 };

@@ -35,6 +35,8 @@ const cardColorConf = '#f4511e';
 const firstColor = '#55C57A';
 const firstColor_minor = '#d2f5ea';
 
+const strongColor = 'rgb(119,204,113)';
+
 const textColor = 'black';
 const textColor_2 = 'white';
 
@@ -66,5 +68,6 @@ export {
   firstColor_minor,
   baseURL,
   cardTextColor,
-  cardTextColor_2
+  cardTextColor_2,
+  strongColor
 };
