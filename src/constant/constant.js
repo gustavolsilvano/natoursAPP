@@ -38,7 +38,7 @@ const firstColor_major = '#349956';
 
 const strongColor = '#77CC71';
 
-const textColor = 'black';
+const textColor = '#B4B4B4';
 const textColor_2 = 'white';
 
 const cardTextColor = '#B4B4B4';

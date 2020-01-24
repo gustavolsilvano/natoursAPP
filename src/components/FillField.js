@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
-import { textColor } from '../constant/constant';
+import { textColor, firstColor, cardTextColor_2 } from '../constant/constant';
 
 const FillField = ({
   field,
@@ -67,10 +67,11 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 18,
-    color: textColor
+    color: cardTextColor_2
   },
   textInput: {
     borderBottomWidth: 2,
+    borderBottomColor: firstColor,
     color: textColor
   }
 });

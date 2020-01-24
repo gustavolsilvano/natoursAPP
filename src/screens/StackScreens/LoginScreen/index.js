@@ -35,7 +35,7 @@ const LoginScreen = ({ navigation }) => {
 
   const handleLoading = useContext(LoadingContext);
 
-  const { setUser } = useContext(UserContext);
+  const { setCurrentUser } = useContext(UserContext);
 
   const handleWarning = useContext(MessageContext);
 
@@ -59,7 +59,10 @@ const LoginScreen = ({ navigation }) => {
     const user = { email, password };
     try {
       const response = await server.post('/api/v1/users/login', user);
-      setUser({ ...response.data.data.user, token: response.data.token });
+      setCurrentUser({
+        ...response.data.data.user,
+        token: response.data.token
+      });
       navigation.dispatch(homeScreenDefault);
       handleLoading(false, '');
     } catch (err) {
