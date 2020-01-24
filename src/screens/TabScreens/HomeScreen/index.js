@@ -7,7 +7,7 @@ import styles from './style';
 import server from '../../../api/server';
 import { FlatList } from 'react-native-gesture-handler';
 
-import { width } from '../../../constant/constant';
+import { width, firstColor } from '../../../constant/constant';
 
 const HomeScreen = () => {
   // REF
@@ -58,4 +58,5 @@ const HomeScreen = () => {
     </View>
   );
 };
+
 export default HomeScreen;

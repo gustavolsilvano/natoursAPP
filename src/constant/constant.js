@@ -34,8 +34,9 @@ const cardColorConf = '#f4511e';
 
 const firstColor = '#55C57A';
 const firstColor_minor = '#d2f5ea';
+const firstColor_major = '#349956';
 
-const strongColor = 'rgb(119,204,113)';
+const strongColor = '#77CC71';
 
 const textColor = 'black';
 const textColor_2 = 'white';
@@ -66,6 +67,7 @@ export {
   loginPicture,
   firstColor,
   firstColor_minor,
+  firstColor_major,
   baseURL,
   cardTextColor,
   cardTextColor_2,

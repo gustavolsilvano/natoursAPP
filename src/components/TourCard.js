@@ -20,10 +20,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons';
 
 import getFullMonth from '../functions/getFullMonth';
-import { withNavigation } from 'react-navigation';
 
 import LoadingContext from '../context/LoadingContext';
 import MessageContext from '../context/MessageContext';
+import TourContext from '../context/TourContext';
+import ReviewContext from '../context/ReviewContext';
 
 import server from '../api/server';
 
@@ -46,17 +47,20 @@ const TourCard = ({ tour, navigation }) => {
   // CONTEXT
   const handleLoading = useContext(LoadingContext);
   const handleWarning = useContext(MessageContext);
+  const { setCurrentTour } = useContext(TourContext);
+  const { setCurrentReviews } = useContext(ReviewContext);
 
   // FUNCTION
   const handleDetail = async () => {
     handleLoading(true, 'Loading...');
     try {
       const response = await server.get(`/api/v1/tours/${tour._id}/reviews`);
-      const reviews = response.data.data.docs;
-      navigation.navigate('Detail', { tour, reviews });
+      setCurrentReviews(response.data.data.docs);
+      setCurrentTour(tour);
+      navigation.navigate('Detail');
       handleLoading(false, '');
     } catch (err) {
-      console.log('Error when getting review', err.response);
+      console.log('Error when getting review', err.response || err);
       handleLoading(false, '');
       handleWarning(true, err.response.message);
     }
@@ -281,4 +285,4 @@ const styles = StyleSheet.create({
   button: {}
 });
 
-export default withNavigation(TourCard);
+export default TourCard;

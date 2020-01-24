@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-import { imageUserURL } from '../../../constant/constant';
+import { imageUserURL } from '../../../../constant/constant';
 
-import firstLetterUpper from '../../../functions/firstLetterUpper';
+import firstLetterUpper from '../../../../functions/firstLetterUpper';
 
-import styles from './style';
+import styles from '../style';
 import { ScrollView } from 'react-native-gesture-handler';
 
 const QuickFacts = ({ tour }) => {

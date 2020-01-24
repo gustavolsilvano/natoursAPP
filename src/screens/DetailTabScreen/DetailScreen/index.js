@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { View, ScrollView } from 'react-native';
 
 import styles from './style';
 import {
@@ -7,14 +7,19 @@ import {
   firstColor,
   firstColor_minor
 } from '../../../constant/constant';
-import Header from '../../../components/Header';
-import { QuickFacts, TourDescription, TourGuides } from './components';
-import { ScrollView } from 'react-native-gesture-handler';
+
+import {
+  QuickFacts,
+  TourDescription,
+  TourGuides
+} from './components/components';
+
+import TourContext from '../../../context/TourContext';
 
 import { HeaderDetail, BottomDetail } from '../components/HeaderBottomDetail';
 
-const DetailScreen = ({ navigation }) => {
-  const tour = navigation.getParam('tour', null);
+const DetailScreen = () => {
+  const { currentTour: tour } = useContext(TourContext);
 
   const [bodyIndicator, setBodyIndicator] = useState({
     ind1: firstColor,
@@ -75,10 +80,6 @@ const DetailScreen = ({ navigation }) => {
       <BottomDetail tour={tour} />
     </View>
   );
-};
-
-DetailScreen.navigationOptions = {
-  headerTitle: () => <Header left={-width / 5} />
 };
 
 export default DetailScreen;

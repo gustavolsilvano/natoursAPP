@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text } from 'react-native';
 
 import styles from './style';
 import { width } from '../../../constant/constant';
 import Header from '../../../components/Header';
+import TourContext from '../../../context/TourContext';
 
-const DetailScreen = ({ navigation }) => {
+const DetailScreen = () => {
+  const { currentTour: tour } = useContext(TourContext);
   return (
     <View>
       <Text>MapScreen</Text>
