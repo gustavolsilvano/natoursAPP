@@ -6,15 +6,14 @@ import {
   backgroundColor,
   firstColor,
   cardTextColor,
-  cardTextColor_2
-} from '../constant/constant';
-import Button from '../components/Button';
-
-import {
+  cardTextColor_2,
   imageTourURL,
   textColor_2,
   backgroundColor_2
 } from '../constant/constant';
+import Button from '../components/Button';
+
+import { withNavigation } from 'react-navigation';
 
 import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons';
@@ -281,8 +280,7 @@ const styles = StyleSheet.create({
   },
   textBody_2: {
     color: cardTextColor_2
-  },
-  button: {}
+  }
 });
 
-export default TourCard;
+export default withNavigation(TourCard);

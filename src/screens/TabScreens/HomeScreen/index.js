@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View } from 'react-native';
 import TourCard from '../../../components/TourCard';
+import TourCardPlaceHolder from './components/TourCardPlaceHolder';
 
 import styles from './style';
 
 import server from '../../../api/server';
 import { FlatList } from 'react-native-gesture-handler';
 
-import { width, firstColor } from '../../../constant/constant';
+import { width } from '../../../constant/constant';
 
 const HomeScreen = () => {
   // REF
@@ -54,7 +55,9 @@ const HomeScreen = () => {
             return <TourCard tour={item} />;
           }}
         />
-      ) : null}
+      ) : (
+        <TourCardPlaceHolder />
+      )}
     </View>
   );
 };
