@@ -41,7 +41,7 @@ const MainStack = createStackNavigator(
     Detail: DetailNavigator
   },
   {
-    initialRouteName: 'Main',
+    initialRouteName: 'Login',
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: firstColor

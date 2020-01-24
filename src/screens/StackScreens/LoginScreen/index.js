@@ -1,10 +1,11 @@
-import React, { useState, useContext, useRef } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   View,
   Text,
   Image,
   TouchableOpacity,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  SafeAreaView
 } from 'react-native';
 // import AsyncStorage from '@react-native-community/async-storage';
 import styles from './style';
@@ -23,24 +24,22 @@ import MessageContext from '../../../context/MessageContext';
 import { StackActions, NavigationActions } from 'react-navigation';
 
 const LoginScreen = ({ navigation }) => {
-  // Navigation
+  // NAVIGATION
 
   const homeScreenDefault = StackActions.reset({
     index: 0,
     actions: [NavigationActions.navigate({ routeName: 'Main' })]
   });
 
-  // Ref
-  const fieldsRef = useRef(null);
-  // Context
+  // CONTEXT
 
   const handleLoading = useContext(LoadingContext);
 
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   const handleWarning = useContext(MessageContext);
 
-  // Defining states
+  // STATES
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -48,7 +47,7 @@ const LoginScreen = ({ navigation }) => {
   const [emailFocus, setEmailFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
 
-  // Defining functions
+  // FUNCTIONS
 
   const handleResetNextFocus = () => {
     setPasswordFocus(false);
@@ -88,73 +87,82 @@ const LoginScreen = ({ navigation }) => {
 
   // ----------------RENDER-------------------------
   return (
-    <KeyboardAvoidingView
-      enabled={true}
-      style={{ flex: 1 }}
-      behavior={'position'}
-      keyboardVerticalOffset={-24}
-    >
-      <Image style={styles.loginPicture} source={loginPicture} />
-      <View style={styles.imageFilter} />
-      <View style={styles.triangleCorner} />
-      <View style={styles.bottomShape} />
-      <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <KeyboardAvoidingView
+        contentContainerStyle={{ flex: 1 }}
+        enabled={true}
+        keyboardVerticalOffset={-24}
+        behavior={'position'}
+        style={{ flex: 1 }}
+      >
+        {/* HEADER */}
+
         <View style={styles.containerHeader}>
+          <Image style={styles.loginPicture} source={loginPicture} />
+          <View style={styles.imageFilter} />
+          <View style={styles.triangleCorner} />
           <View style={styles.containerTitle}>
             <Image style={styles.logo} source={logo} resizeMode={'contain'} />
             <Text style={styles.titleText}>NATOUR</Text>
           </View>
         </View>
 
-        <View style={styles.containerFields} ref={fieldsRef}>
-          <FillField
-            field="EMAIL"
-            type="email"
-            onChangeTextInput={val => setEmail(val)}
-            setNext={() => {
-              if (!password) setPasswordFocus(true);
-              if (password) handleLogin();
-            }}
-            resetNextFocus={handleResetNextFocus}
-            focus={emailFocus}
-          />
-
-          <FillField
-            marginTop={10}
-            field="PASSWORD"
-            type="password"
-            onChangeTextInput={val => setPassword(val)}
-            setNext={() => {
-              if (!email) setEmailFocus(true);
-              if (email) handleLogin();
-            }}
-            resetNextFocus={handleResetNextFocus}
-            focus={passwordFocus}
-          />
-          <Button text="LOGIN" callBack={() => handleLogin()} />
-          <View style={styles.containerForgot}>
-            <TextButton
-              text="Forgot my password"
-              callBack={() => {
-                navigation.dispatch(loginScreenDefault);
-                navigation.navigate('Forgot');
+        {/* BODY */}
+        <View style={styles.containerBody}>
+          <View style={styles.containerFill}>
+            <FillField
+              field="EMAIL"
+              type="email"
+              onChangeTextInput={val => setEmail(val)}
+              setNext={() => {
+                if (!password) setPasswordFocus(true);
+                if (password) handleLogin();
               }}
+              resetNextFocus={handleResetNextFocus}
+              focus={emailFocus}
+            />
+
+            <FillField
+              marginTop={10}
+              field="PASSWORD"
+              type="password"
+              onChangeTextInput={val => setPassword(val)}
+              setNext={() => {
+                if (!email) setEmailFocus(true);
+                if (email) handleLogin();
+              }}
+              resetNextFocus={handleResetNextFocus}
+              focus={passwordFocus}
             />
           </View>
 
-          <TouchableOpacity
-            style={styles.containerNewUser}
-            onPress={() => {
-              navigation.dispatch(loginScreenDefault);
-              navigation.navigate('NewUser');
-            }}
-          >
-            <Text style={styles.clickHereText}>Click here to create a </Text>
-            <Text style={styles.newUserText}>NEW ACCOUNT</Text>
-          </TouchableOpacity>
+          <View style={styles.containerButtons}>
+            <Button text="LOGIN" callBack={() => handleLogin()} />
+
+            <View style={styles.containerForgot}>
+              <TextButton
+                text="Forgot my password"
+                callBack={() => {
+                  navigation.dispatch(loginScreenDefault);
+                  navigation.navigate('Forgot');
+                }}
+              />
+            </View>
+
+            <TouchableOpacity
+              style={styles.containerNewUser}
+              onPress={() => {
+                navigation.dispatch(loginScreenDefault);
+                navigation.navigate('NewUser');
+              }}
+            >
+              <Text style={styles.clickHereText}>Click here to create a </Text>
+              <Text style={styles.newUserText}>NEW ACCOUNT</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 

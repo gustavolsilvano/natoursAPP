@@ -1,7 +1,6 @@
 import { StyleSheet } from 'react-native';
 import {
   backgroundColor,
-  logoStye,
   textColor,
   textColor_2,
   width,
@@ -10,17 +9,14 @@ import {
 
 export default StyleSheet.create({
   container: {
-    height: '100%',
-    width: '100%'
+    flex: 1
   },
   containerHeader: {
-    flex: 3,
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start'
+    flex: 1
   },
   containerFields: {
-    flex: 3,
-    alignItems: 'center'
+    flex: 1,
+    backgroundColor
   },
   containerForgot: {
     alignItems: 'center',
@@ -38,19 +34,33 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 20
+    marginBottom: 10
   },
   containerTitle: {
+    position: 'absolute',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
     borderColor: textColor_2,
-    marginTop: 30,
+    marginTop: height / 10,
     marginLeft: 10,
     borderRadius: 20,
     height: 44,
     padding: 6
+  },
+  containerFill: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  containerButtons: {
+    flex: 1
+  },
+  containerBody: {
+    flex: 1,
+    backgroundColor,
+    zIndex: 2
   },
   titleText: {
     color: textColor_2,
@@ -72,23 +82,18 @@ export default StyleSheet.create({
   },
   triangleCorner: {
     position: 'absolute',
-    bottom: 348,
+    bottom: 0,
     backgroundColor: 'transparent',
     borderStyle: 'solid',
     borderLeftWidth: width,
-    borderBottomWidth: height / 5,
+    borderBottomWidth: height / 12,
     borderLeftColor: 'transparent',
-    borderBottomColor: backgroundColor
-  },
-  bottomShape: {
-    position: 'absolute',
-    width,
-    height: 348,
-    bottom: 0,
-    backgroundColor
+    borderBottomColor: backgroundColor,
+    zIndex: 1
   },
   loginPicture: {
-    position: 'absolute'
+    width,
+    height: height / 2
   },
   imageFilter: {
     position: 'absolute',
