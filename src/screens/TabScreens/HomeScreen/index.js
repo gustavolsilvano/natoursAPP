@@ -7,6 +7,7 @@ import styles from './style';
 
 import server from '../../../api/server';
 import { FlatList } from 'react-native-gesture-handler';
+import { Feather } from '@expo/vector-icons';
 
 import { width } from '../../../constant/constant';
 
@@ -60,6 +61,16 @@ const HomeScreen = () => {
       )}
     </View>
   );
+};
+
+HomeScreen.navigatioOptions = {
+  title: 'Tours',
+  tabBarIcon: () => (
+    <Feather
+      name="profile"
+      style={{ alignSelf: 'flex-end', fontSize: 16, color: textColor_2 }}
+    />
+  )
 };
 
 export default HomeScreen;

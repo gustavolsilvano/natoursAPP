@@ -15,6 +15,9 @@ const windowDimension = prop => {
   }
 };
 
+// const env = 'dev';
+const env = 'prod';
+
 const loginPicture = require('../../assets/loginPicture.jpg');
 
 const width = windowDimension('width');
@@ -45,7 +48,8 @@ const cardTextColor = '#B4B4B4';
 const cardTextColor_2 = '#969696';
 
 // const profilePlaceHolder = require('../../resource/profilePlaceholder.jpg');
-const baseURL = 'https://natours-mab.herokuapp.com';
+const baseURL =
+  env === 'dev' ? 'http://localhost:3000' : 'https://natours-mab.herokuapp.com';
 const imageTourURL = `${baseURL}/img/tours`;
 const imageUserURL = `${baseURL}/img/users`;
 

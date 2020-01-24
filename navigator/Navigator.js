@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { createAppContainer } from 'react-navigation';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
@@ -8,7 +8,8 @@ import { createMaterialBottomTabNavigator } from 'react-navigation-material-bott
 import { createStackNavigator } from 'react-navigation-stack';
 
 // AUTH SCREENS
-import LoginScreen from '../src/screens/StackScreens/LoginScreen';
+import LoginScreen from '../src/screens/AuthScreen/LoginScreen';
+import LoadingUserByTokenScreen from '../src/screens/AuthScreen/LoadingUserByTokenScreen';
 
 // MAIN SCREEN
 import HomeScreen from '../src/screens/TabScreens/HomeScreen';
@@ -27,6 +28,7 @@ import MyBillingScreen from '../src/screens/AccountTabScreen/MyBillingScreen';
 
 import Header from '../src/components/Header';
 import HeaderDetail from '../src/components/TopHeaderDetail';
+import { Feather } from '@expo/vector-icons';
 
 import {
   firstColor,
@@ -103,8 +105,22 @@ const TourNavigator = createStackNavigator(
 
 const MainNavigator = createMaterialBottomTabNavigator(
   {
-    Tours: TourNavigator,
-    Account: AccountNavigator
+    tour: {
+      screen: TourNavigator,
+      navigationOptions: {
+        tabBarIcon: () => (
+          <Feather name="map" color={firstColor_minor} size={20} />
+        )
+      }
+    },
+    account: {
+      screen: AccountNavigator,
+      navigationOptions: {
+        tabBarIcon: () => (
+          <Feather name="user" color={firstColor_minor} size={20} />
+        )
+      }
+    }
   },
   {
     activeColor: firstColor_major,
@@ -120,19 +136,38 @@ MainNavigator.navigationOptions = {
   headerShown: false
 };
 
-const MainStack = createStackNavigator(
+const AuthStack = createStackNavigator(
   {
-    Login: LoginScreen,
+    Login: LoginScreen
+  },
+  {
+    initialRouteName: 'Login'
+  }
+);
+
+const AppStack = createStackNavigator(
+  {
     Main: MainNavigator,
     Detail: DetailNavigator
   },
   {
-    initialRouteName: 'Login',
+    initialRouteName: 'Main',
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: firstColor
       }
     }
+  }
+);
+
+const MainStack = createSwitchNavigator(
+  {
+    App: AppStack,
+    Auth: AuthStack,
+    PreLoading: LoadingUserByTokenScreen
+  },
+  {
+    initialRouteName: 'PreLoading'
   }
 );
 

@@ -21,15 +21,11 @@ import LoadingContext from '../../../context/LoadingContext';
 import UserContext from '../../../context/UserContext';
 import MessageContext from '../../../context/MessageContext';
 
-import { StackActions, NavigationActions } from 'react-navigation';
+import { saveLocalUser } from '../../../functions/handleLocalUser';
+import { NavigationActions } from 'react-navigation';
 
 const LoginScreen = ({ navigation }) => {
   // NAVIGATION
-
-  const homeScreenDefault = StackActions.reset({
-    index: 0,
-    actions: [NavigationActions.navigate({ routeName: 'Main' })]
-  });
 
   // CONTEXT
 
@@ -63,7 +59,12 @@ const LoginScreen = ({ navigation }) => {
         ...response.data.data.user,
         token: response.data.token
       });
-      navigation.dispatch(homeScreenDefault);
+      navigation.navigate(
+        'App',
+        {},
+        NavigationActions.navigate({ routeName: 'Main' })
+      );
+      saveLocalUser(response.data.token);
       handleLoading(false, '');
     } catch (err) {
       handleLoading(false, '');
