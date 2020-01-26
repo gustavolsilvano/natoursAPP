@@ -73,7 +73,10 @@ const ReviewScreen = () => {
         <View style={styles.indicator}>
           {reviews.map((el, ind) => {
             return (
-              <View style={[styles.ind, { backgroundColor: indColor[ind] }]} />
+              <View
+                key={ind}
+                style={[styles.ind, { backgroundColor: indColor[ind] }]}
+              />
             );
           })}
         </View>

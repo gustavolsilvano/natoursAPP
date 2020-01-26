@@ -71,23 +71,7 @@ const LoginScreen = ({ navigation }) => {
       handleWarning(true, err.response.data.message);
       console.log('Erro no login', err.response);
     }
-    //
   };
-
-  // useEffect(() => {
-  //   retrieveRememberUser();
-  // }, []);
-
-  // const retrieveRememberUser = async () => {
-  //   try {
-  //     const userPreParse = await AsyncStorage.getItem('userToken');
-  //     const userToken = JSON.parse(userPreParse);
-  //     if (!userToken) return;
-  //     handleLogin(userToken);
-  //   } catch (err) {
-  //     return;
-  //   }
-  // };
 
   // ----------------RENDER-------------------------
   return (

@@ -24,4 +24,13 @@ const deleteLocalUser = async () => {
   }
 };
 
-export { saveLocalUser, loadLocalUser, deleteLocalUser };
+const updateLocaluser = async userToken => {
+  try {
+    await deleteLocalUser();
+    await saveLocalUser(userToken);
+  } catch (err) {
+    console.log('Error updating local user', err);
+  }
+};
+
+export { saveLocalUser, loadLocalUser, deleteLocalUser, updateLocaluser };

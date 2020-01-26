@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { width, firstColor } from '../../../constant/constant';
+import { width, firstColor, height } from '../../../constant/constant';
 
 const styles = StyleSheet.create({
   container: {
@@ -9,16 +9,18 @@ const styles = StyleSheet.create({
   containerTitle: {
     flex: 1,
     justifyContent: 'flex-end',
+    marginHorizontal: 20,
     alignItems: 'center'
   },
   containerFill: {
     flex: 3,
+    marginHorizontal: 20,
     justifyContent: 'center',
     alignItems: 'center'
   },
   containerButtons: {
     flex: 2,
-    marginHorizontal: 10
+    marginHorizontal: 20
   },
   containerPhotoNewPhoto: {
     flex: 1,
@@ -31,8 +33,11 @@ const styles = StyleSheet.create({
     flex: 1
   },
   title: {
+    position: 'absolute',
+    top: height / 12,
     fontSize: 20,
-    color: firstColor
+    color: firstColor,
+    alignSelf: 'flex-start'
   },
   userPhoto: {
     width: 100,

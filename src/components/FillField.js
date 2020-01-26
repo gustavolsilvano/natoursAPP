@@ -10,7 +10,8 @@ const FillField = ({
   focus,
   setNext,
   resetNextFocus,
-  initialValue
+  initialValue,
+  placeholderValue
 }) => {
   // Configurando configuração inicial
   const initialConfig = () => {
@@ -56,6 +57,7 @@ const FillField = ({
         onSubmitEditing={handleSubmit}
         secureTextEntry={config.secure}
         style={styles.textInput}
+        placeholder={placeholderValue}
       />
     </View>
   );
@@ -63,7 +65,7 @@ const FillField = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: '80%'
+    width: '100%'
   },
   text: {
     fontSize: 18,

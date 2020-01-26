@@ -123,6 +123,7 @@ const MainNavigator = createMaterialBottomTabNavigator(
     }
   },
   {
+    initialRouteName: 'tour',
     activeColor: firstColor_major,
     inactiveColor: firstColor_minor,
     barStyle: { backgroundColor: firstColor },

@@ -27,7 +27,7 @@ import ReviewContext from '../context/ReviewContext';
 
 import server from '../api/server';
 
-const TourCard = ({ tour, navigation }) => {
+const TourCard = ({ tour, isBooked, navigation }) => {
   // Adjusting tour informations
   const date = new Date(Date.parse(tour.startDates[0]));
   const year = date.getFullYear();

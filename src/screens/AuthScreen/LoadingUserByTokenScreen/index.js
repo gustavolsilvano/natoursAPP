@@ -18,10 +18,10 @@ const LoadingUserByTokenScreen = ({ navigation }) => {
 
   // FUNCTION
   const getLocalUser = async () => {
+    // await deleteLocalUser();
     handleLoading(true, 'Loading...');
     try {
       const response = await loadLocalUser();
-      console.log(response);
       if (response) {
         try {
           const responseUser = await server.get(
@@ -32,7 +32,7 @@ const LoadingUserByTokenScreen = ({ navigation }) => {
               }
             }
           );
-          setCurrentUser(responseUser.data.data.user);
+          setCurrentUser({ ...responseUser.data.data.user, token: response });
           handleLoading(false, '');
           return navigation.navigate('App');
         } catch (err) {

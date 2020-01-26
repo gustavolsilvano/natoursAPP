@@ -1,7 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { View } from 'react-native';
 import TourCard from '../../../components/TourCard';
 import TourCardPlaceHolder from './components/TourCardPlaceHolder';
+
+import TourContext from '../../../context/TourContext';
+import UserContext from '../../../context/UserContext';
+import LoadingContext from '../../../context/LoadingContext';
+import MessageContext from '../../../context/MessageContext';
 
 import styles from './style';
 
@@ -12,19 +17,36 @@ import { Feather } from '@expo/vector-icons';
 import { width } from '../../../constant/constant';
 
 const HomeScreen = () => {
-  // REF
-  const listRef = useRef();
-
-  // STATE
-  const [tours, setTours] = useState(null);
+  // CONTEXT
+  const { currentUser: user } = useContext(UserContext);
+  const handleLoading = useContext(LoadingContext);
+  const handleMessage = useContext(MessageContext);
+  const { tours, setTours } = useContext(TourContext);
 
   // FUNCTIONS
   const getTours = async () => {
     try {
-      const toursDef = await server.get('/api/v1/tours');
-      setTours(toursDef.data.data.docs);
+      let toursDef = await server.get('/api/v1/tours');
+      let bookingsDef = await server.get('/api/v1/users/myTours', {
+        headers: {
+          authorization: `Bearer ${user.token}`
+        }
+      });
+
+      toursDef = toursDef.data.data.docs;
+      bookingsDef = bookingsDef.data.data.tours;
+
+      toursDef.forEach(elTour => {
+        bookingsDef.forEach(elBook => {
+          if (elBook._id === elTour._id && !elTour.isBooked) {
+            elTour.isBooked = true;
+          }
+        });
+      });
+
+      setTours(toursDef);
     } catch (err) {
-      console.log('Erro ao buscar os tours', err || err.response);
+      console.log('Error retrieving data', err || err.response);
     }
   };
 
@@ -47,7 +69,6 @@ const HomeScreen = () => {
           snapToInterval={width}
           decelerationRate={'fast'}
           disableIntervalMomentum={true}
-          ref={listRef}
           showsHorizontalScrollIndicator={false}
           horizontal={true}
           data={tours}

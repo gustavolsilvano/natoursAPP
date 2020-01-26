@@ -60,6 +60,7 @@ export default StyleSheet.create({
   containerBody: {
     flex: 1,
     backgroundColor,
+    paddingHorizontal: 20,
     zIndex: 2
   },
   titleText: {
