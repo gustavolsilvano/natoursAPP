@@ -36,7 +36,7 @@ const MyReviewsScreeen = () => {
       handleLoading(false, '');
     } catch (err) {
       console.log('Error retrieving review', err || err.response);
-      handleMessage(true, err.response.message);
+      if (err.response) return handleMessage(true, err.response.message);
       handleLoading(false, '');
     }
   };

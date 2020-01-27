@@ -1,7 +1,14 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import server from '../api/server';
 
 import TourContext from '../context/TourContext';
+import PopupContext from '../context/PopupContext';
+import LoadingContext from '../context/LoadingContext';
+import MessageContext from '../context/MessageContext';
+import UserContext from '../context/UserContext';
+
+import PopupReview from './PopupReview';
 
 import Button from './Button';
 
@@ -14,21 +21,53 @@ import {
 
 const TopHeaderDetail = () => {
   // CONTEXT
-
+  const setComp = useContext(PopupContext);
   const { currentTour: tour } = useContext(TourContext);
+  const handleLoading = useContext(LoadingContext);
+  const handleMessage = useContext(MessageContext);
+  const { currentUser: user } = useContext(UserContext);
 
-  const AlreadyBooked = () => {
+  // FUNCTION
+
+  const createReview = async (text, rate) => {
+    try {
+      handleLoading(true, 'Loading...');
+      body = {
+        review: text,
+        rating: rate,
+        tour: tour._id,
+        user: user._id
+      };
+      await server.post(`api/v1/reviews`, body);
+      setComp(null);
+      handleLoading(false, '');
+      return handleMessage(true, 'Review created successfully!');
+    } catch (err) {
+      console.log('Error creating review', err || err.response);
+      if (err.response) return handleMessage(true, err.response.message);
+      handleLoading(false, '');
+    }
+  };
+
+  const handleReview = () => {
     return (
-      <View style={styles.containerBooked}>
-        <Text style={styles.textBooked}>BOOKED!</Text>
-      </View>
+      <PopupReview
+        tourIni={tour}
+        backCallback={() => setComp(null)}
+        sendCallback={createReview}
+        closeCallBack={() => setComp(null)}
+      />
     );
   };
 
   return (
     <View style={styles.container}>
       {tour.isBooked ? (
-        <AlreadyBooked />
+        <Button
+          style={styles.button}
+          text="LEAVE A REVIEW!"
+          callBack={() => setComp(handleReview())}
+        />
       ) : (
         <Button style={styles.button} text="BOOK NOW!" />
       )}
