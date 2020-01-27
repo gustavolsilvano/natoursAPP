@@ -9,9 +9,9 @@ import {
 } from '../../../constant/constant';
 
 import { HeaderDetail, BottomDetail } from '../components/HeaderBottomDetail';
-import ReviewCard from './components/ReviewCard';
+import ReviewCard from '../../../components/ReviewCard/ReviewCard';
 import { ScrollView } from 'react-native-gesture-handler';
-import ReviewCardBlank from './components/ReviewCardBlank';
+import ReviewCardBlank from '../../../components/ReviewCard/ReviewCardBlank';
 import TourContext from '../../../context/TourContext';
 import ReviewContext from '../../../context/ReviewContext';
 

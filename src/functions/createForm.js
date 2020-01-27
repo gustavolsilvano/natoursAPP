@@ -4,8 +4,8 @@ export default (imageToUpload, name, email, user) => {
   }
   const data = new FormData();
   if (user) data.append('userId', user._id);
-  data.append('userName', name);
-  data.append('userEmail', email);
+  data.append('name', name);
+  data.append('email', email);
   if (imageToUpload) {
     data.append('photo', {
       uri: imageToUpload.uri,

@@ -4,7 +4,8 @@ import {
   Text,
   Image,
   SafeAreaView,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  TouchableOpacity
 } from 'react-native';
 
 import server from '../../../api/server';
@@ -18,11 +19,20 @@ import FillField from '../../../components/FillField';
 import Button from '../../../components/Button';
 import TextButton from '../../../components/TextButton';
 
-import { imageUserURL, textColor_2 } from '../../../constant/constant';
+import {
+  imageUserURL,
+  textColor_2,
+  defaultUserPhotoURL
+} from '../../../constant/constant';
+
+import { deleteLocalUser } from '../../../functions/handleLocalUser';
 
 import UserContext from '../../../context/UserContext';
 import LoadingContext from '../../../context/LoadingContext';
 import MessageContext from '../../../context/MessageContext';
+import PopupContext from '../../../context/PopupContext';
+
+import PopupCard from '../../../components/PopupCard';
 
 const EditScreen = ({ navigation }) => {
   // REF
@@ -34,7 +44,10 @@ const EditScreen = ({ navigation }) => {
   const handleLoading = useContext(LoadingContext);
   const handleMessage = useContext(MessageContext);
 
+  const setComp = useContext(PopupContext);
+
   // STATE
+  const [te, setTe] = useState(null);
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
   const [photo, setPhoto] = useState(`${imageUserURL}/${user.photo}`);
@@ -46,8 +59,54 @@ const EditScreen = ({ navigation }) => {
     setNameFocus(false);
     setEmailFocus(false);
   };
-
+  //TODO network error needs to not let go to homescreeen
   // FUNCTION
+
+  const logout = async () => {
+    try {
+      setComp(null);
+      handleLoading(true, 'Loading...');
+      await deleteLocalUser();
+      handleLoading(false, '');
+      navigation.navigate('Login');
+    } catch (err) {
+      console.log('Error logging out', err);
+      handleLoading(false, '');
+    }
+  };
+
+  const handleLogout = () => {
+    setComp(
+      <PopupCard
+        text={'Are you sure you want to logout?'}
+        yesCallback={() => logout()}
+        noCallback={() => setComp(null)}
+        closeCallback={() => setComp(null)}
+      />
+    );
+  };
+
+  const eraseUserPhoto = async () => {
+    try {
+      handleLoading(true, 'Loading...');
+      setCurrentUser({ ...user, photo: { defaultUserPhotoURL } });
+      setPhoto(`${imageUserURL}/${defaultUserPhotoURL}`);
+      await server.patch(
+        '/api/v1/users/updateMe',
+        { photo: defaultUserPhotoURL },
+        {
+          headers: {
+            authorization: `Bearer ${user.token}`
+          }
+        }
+      );
+      handleLoading(false, '');
+    } catch (err) {
+      console.log('Error updating user', err);
+      handleMessage(true, err.response.data.message);
+      handleLoading(false, '');
+    }
+  };
 
   const handleUserUpdate = async () => {
     const data = createForm(imageToUpload.current, name, email);
@@ -68,11 +127,11 @@ const EditScreen = ({ navigation }) => {
       handleLoading(false, '');
     } catch (err) {
       console.log('Error updating user', err);
-      // handleMessage(true, err.response.data.message);
+      handleMessage(true, err.response.data.message);
       handleLoading(false, '');
     }
   };
-
+  //TODO change loading screen
   const handlePickImage = async () => {
     try {
       const response = await pickImage();
@@ -81,7 +140,7 @@ const EditScreen = ({ navigation }) => {
           true,
           'You need to grant the app permission to reach your storage'
         );
-      setPhoto(response.uri);
+      if (!response.cancelled) setPhoto(response.uri);
       imageToUpload.current = response;
     } catch (err) {
       console.log('Error picking photo', err);
@@ -128,6 +187,12 @@ const EditScreen = ({ navigation }) => {
         </View>
         <View style={styles.containerButtons}>
           <View style={styles.containerPhotoNewPhoto}>
+            <TouchableOpacity
+              style={styles.containerErasePhoto}
+              onPress={eraseUserPhoto}
+            >
+              <Text style={styles.erasePhoto}>x</Text>
+            </TouchableOpacity>
             <Image style={styles.userPhoto} source={{ uri: photo }} />
             <TextButton
               style={styles.textButton}
@@ -136,6 +201,12 @@ const EditScreen = ({ navigation }) => {
             />
           </View>
           <View style={styles.containerUpdateButton}>
+            <TouchableOpacity
+              style={styles.containerLogout}
+              onPress={handleLogout}
+            >
+              <Feather name="log-out" style={styles.iconLogout} />
+            </TouchableOpacity>
             <Button
               style={styles.button}
               text="SAVE SETTINGS"

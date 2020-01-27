@@ -1,6 +1,12 @@
 import { StyleSheet } from 'react-native';
 
-import { width, firstColor, height } from '../../../constant/constant';
+import {
+  width,
+  firstColor,
+  height,
+  textColor_2,
+  warningColor
+} from '../../../constant/constant';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,7 +36,32 @@ const styles = StyleSheet.create({
     marginHorizontal: 10
   },
   containerUpdateButton: {
-    flex: 1
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  containerErasePhoto: {
+    position: 'absolute',
+    zIndex: 1,
+    borderWidth: 1,
+    width: 14,
+    height: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 14,
+    left: width / 4.2,
+    bottom: height / 9,
+    backgroundColor: 'white'
+  },
+  containerLogout: {
+    height: height / 18,
+    width: height / 18,
+    borderRadius: height / 18,
+    justifyContent: 'center',
+    alignContent: 'center',
+    top: 10,
+    backgroundColor: warningColor
   },
   title: {
     position: 'absolute',
@@ -51,8 +82,16 @@ const styles = StyleSheet.create({
   },
   button: {
     width: width / 2,
-    alignSelf: 'flex-end',
     marginTop: 10
+  },
+  erasePhoto: {
+    fontSize: 12,
+    top: -1.2
+  },
+  iconLogout: {
+    fontSize: 20,
+    alignSelf: 'center',
+    color: textColor_2
   }
 });
 

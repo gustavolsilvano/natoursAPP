@@ -6,6 +6,7 @@ import { UserProvider } from './src/context/UserContext';
 import { MessageProvider } from './src/context/MessageContext';
 import { TourProvider } from './src/context/TourContext';
 import { ReviewProvider } from './src/context/ReviewContext';
+import { PopupProvider } from './src/context/PopupContext';
 import createStoreProvider from './src/context/createStoreProvider';
 
 const StoreProvider = createStoreProvider([
@@ -13,7 +14,8 @@ const StoreProvider = createStoreProvider([
   UserProvider,
   MessageProvider,
   TourProvider,
-  ReviewProvider
+  ReviewProvider,
+  PopupProvider
 ]);
 
 const App = () => {

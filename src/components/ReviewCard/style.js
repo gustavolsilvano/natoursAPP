@@ -4,7 +4,7 @@ import {
   cardTextColor,
   cardTextColor_2,
   firstColor_minor
-} from '../../../../constant/constant';
+} from '../../constant/constant';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,6 +25,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  containerUserTourName: {
+    flex: 1
+  },
   rating: {
     fontSize: 16
   },
@@ -37,6 +40,11 @@ const styles = StyleSheet.create({
   textUserName: {
     fontSize: 16,
     color: cardTextColor_2
+  },
+  textTourName: {
+    fontSize: 12,
+    color: cardTextColor,
+    fontStyle: 'italic'
   },
   textReview: {
     marginTop: 10,

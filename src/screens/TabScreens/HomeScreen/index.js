@@ -5,8 +5,6 @@ import TourCardPlaceHolder from './components/TourCardPlaceHolder';
 
 import TourContext from '../../../context/TourContext';
 import UserContext from '../../../context/UserContext';
-import LoadingContext from '../../../context/LoadingContext';
-import MessageContext from '../../../context/MessageContext';
 
 import styles from './style';
 
@@ -19,8 +17,6 @@ import { width } from '../../../constant/constant';
 const HomeScreen = () => {
   // CONTEXT
   const { currentUser: user } = useContext(UserContext);
-  const handleLoading = useContext(LoadingContext);
-  const handleMessage = useContext(MessageContext);
   const { tours, setTours } = useContext(TourContext);
 
   // FUNCTIONS

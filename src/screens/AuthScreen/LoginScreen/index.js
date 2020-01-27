@@ -68,8 +68,8 @@ const LoginScreen = ({ navigation }) => {
       handleLoading(false, '');
     } catch (err) {
       handleLoading(false, '');
-      handleWarning(true, err.response.data.message);
-      console.log('Erro no login', err.response);
+      if (err.response) handleWarning(true, err.response.data.message);
+      console.log('Erro login', err || err.response);
     }
   };
 

@@ -1,7 +1,11 @@
 import React, { useContext, useEffect } from 'react';
-import { View } from 'react-native';
+import { View, Image, Text } from 'react-native';
 
 import server from '../../../api/server';
+
+import styles from './style';
+
+import { loadingPicture } from '../../../constant/constant';
 
 import UserContext from '../../../context/UserContext';
 import LoadingContext from '../../../context/LoadingContext';
@@ -51,9 +55,16 @@ const LoadingUserByTokenScreen = ({ navigation }) => {
   useEffect(() => {
     // deleteLocalUser();
     getLocalUser();
-  });
+  }, []);
 
-  return <View></View>;
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>OUTDOORDS</Text>
+      <Text style={styles.subtitle}>IS WHERE LIFE HAPPENS</Text>
+      <Image source={loadingPicture} style={styles.picture} />
+      <View style={styles.imageFilter} />
+    </View>
+  );
 };
 
 export default LoadingUserByTokenScreen;

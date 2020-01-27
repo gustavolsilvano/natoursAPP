@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
-import { imageUserURL } from '../../../../constant/constant';
+import { imageUserURL } from '../../constant/constant';
 import { Feather } from '@expo/vector-icons';
-import { cardTextColor, strongColor } from '../../../../constant/constant';
+import { cardTextColor, strongColor } from '../../constant/constant';
 
 import styles from './style';
 
-const ReviewCard = ({ review }) => {
+const ReviewCard = ({ review, isMyReviewScreen }) => {
   let ratingsColor;
   if (review.rating < 1) {
     ratingsColor = {
@@ -70,9 +70,14 @@ const ReviewCard = ({ review }) => {
           source={{ uri: `${imageUserURL}/${review.user.photo}` }}
           style={styles.userPhoto}
         />
-        <Text style={styles.textUserName}>
-          {review.user.name.toUpperCase()}
-        </Text>
+        <View style={styles.containerUserTourName}>
+          <Text style={styles.textUserName}>
+            {review.user.name.toUpperCase()}
+          </Text>
+          {isMyReviewScreen && review.tour !== null ? (
+            <Text style={styles.textTourName}>Tour: {review.tour.name}</Text>
+          ) : null}
+        </View>
       </View>
       <Text style={styles.textReview}>{review.review}</Text>
       <View style={styles.containerRating}>
