@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import { View } from 'react-native';
+
 import TourCard from '../../../components/TourCard';
 import TourCardPlaceHolder from './components/TourCardPlaceHolder';
 

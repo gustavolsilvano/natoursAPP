@@ -11,19 +11,31 @@ const FillField = ({
   setNext,
   resetNextFocus,
   initialValue,
-  placeholderValue
+  placeholderValue,
+  styleText,
+  styleTextInput,
+  styleContainer,
+  textType
 }) => {
   // Configurando configuração inicial
   const initialConfig = () => {
-    defaultConfig = {
+    const defaultConfig = {
       capitalize: 'sentences',
-      secure: false
+      secure: false,
+      keyboardType: 'default'
     };
 
-    if (type === 'email') return { ...defaultConfig, capitalize: 'none' };
+    if (type === 'email')
+      return {
+        ...defaultConfig,
+        capitalize: 'none',
+        keyboardType: 'email-address'
+      };
     if (type === 'password')
       return { ...defaultConfig, secure: true, capitalize: 'none' };
     if (type === 'fullname') return { ...defaultConfig, capitalize: 'words' };
+    if (type === 'number')
+      return { ...defaultConfig, keyboardType: 'number-pad' };
   };
 
   const [inputValue, setInputValue] = useState(initialValue);
@@ -46,9 +58,11 @@ const FillField = ({
   };
 
   return (
-    <View style={[styles.container, { marginTop }]}>
-      <Text style={styles.text}>{field}</Text>
+    <View style={[styles.container, { marginTop }, styleContainer]}>
+      <Text style={[styles.text, styleText]}>{field}</Text>
       <TextInput
+        textContentType={textType}
+        keyboardType={config.keyboardType}
         autoCapitalize={config.capitalize}
         ref={inputRef}
         value={inputValue}
@@ -56,7 +70,7 @@ const FillField = ({
         onChangeText={text => inputHandle(text)}
         onSubmitEditing={handleSubmit}
         secureTextEntry={config.secure}
-        style={styles.textInput}
+        style={[styles.textInput, styleTextInput]}
         placeholder={placeholderValue}
       />
     </View>

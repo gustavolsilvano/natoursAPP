@@ -98,7 +98,6 @@ const MyReviewsScreeen = () => {
       <PopupReview
         closeCallback={() => setComp(null)}
         sendCallback={updateReview}
-        backCallback={() => setComp(null)}
         deleteCallback={deleteReview}
         reviewIni={item.review}
         rateIni={item.rating}

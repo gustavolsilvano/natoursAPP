@@ -8,6 +8,7 @@ import LoadingContext from '../context/LoadingContext';
 import MessageContext from '../context/MessageContext';
 import UserContext from '../context/UserContext';
 
+import CheckoutCard from './CheckourCard';
 import PopupReview from './PopupReview';
 
 import Button from './Button';
@@ -19,15 +20,58 @@ import {
   textColor_2
 } from '../constant/constant';
 
-const TopHeaderDetail = () => {
+const TopHeaderDetail = ({ navigation }) => {
   // CONTEXT
   const setComp = useContext(PopupContext);
-  const { currentTour: tour } = useContext(TourContext);
+  const { currentTour: tour, setCurrentTour } = useContext(TourContext);
   const handleLoading = useContext(LoadingContext);
   const handleMessage = useContext(MessageContext);
   const { currentUser: user } = useContext(UserContext);
 
   // FUNCTION
+
+  const handleSubmitBooking = async (
+    // card_holder_name: 'abc',
+    // card_expiration_date: '1225',
+    // card_number: '4111.1111.1111.1111',
+    // card_cvv: '123'
+    cardName,
+    cardNumber,
+    cardExpiration,
+    cardCvv
+  ) => {
+    try {
+      handleLoading(true, 'Loading...');
+      const body = { cardNumber, cardCvv, cardName, cardExpiration, tour };
+      const response = await server.post(`/api/v1/checkout/${tour._id}`, body, {
+        headers: {
+          authorization: `Bearer ${user.token}`
+        }
+      });
+      if (response.data.data.transaction.paid) {
+        handleMessage(true, 'Tour booked successfully!');
+        setComp(null);
+        setCurrentTour({ ...tour, isBooked: true });
+      }
+      handleLoading(false, '');
+      return;
+    } catch (err) {
+      console.log('Error sending booking request', err.response.message || err);
+      if (err.response) handleMessage(true, err.response.message);
+      handleLoading(false, '');
+    }
+  };
+
+  const handleCheckout = () => {
+    return (
+      <CheckoutCard
+        tour={tour}
+        yesCallback={handleSubmitBooking}
+        noCallback={() => setComp(null)}
+        closeCallback={() => setComp(null)}
+      />
+    );
+  };
 
   const createReview = async (text, rate) => {
     try {
@@ -69,7 +113,11 @@ const TopHeaderDetail = () => {
           callBack={() => setComp(handleReview())}
         />
       ) : (
-        <Button style={styles.button} text="BOOK NOW!" />
+        <Button
+          style={styles.button}
+          text="BOOK NOW!"
+          callBack={() => setComp(handleCheckout())}
+        />
       )}
     </View>
   );

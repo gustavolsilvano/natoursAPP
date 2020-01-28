@@ -1,9 +1,7 @@
 import { Dimensions } from 'react-native';
-import Constants from 'expo-constants';
 
-const { manifest } = Constants;
-
-const localHostUri = `http://192.168.0.104:3000`;
+const API_PAGARME = 'ak_test_ynmundKQCLhO38IuXqGclHF009Elta';
+const API_PAGARME_CRYPT = 'ek_test_DKNosTLf3lv4okvhS0hqJ8PSjjVZix';
 
 const windowDimension = prop => {
   const { width, height } = Dimensions.get('window');
@@ -62,9 +60,11 @@ const warningColor = '#EA6172';
 // const profilePlaceHolder = require('../../resource/profilePlaceholder.jpg');
 const baseURL =
   env === 'dev' ? 'http://10.0.2.2:3000' : 'https://natours-mab.herokuapp.com';
+
+const baseURLTransaction = 'https://api.pagar.me/1';
+
 const imageTourURL = `${baseURL}/img/tours`;
 const imageUserURL = `${baseURL}/img/users`;
-console.log(baseURL);
 
 export {
   delay,
@@ -89,9 +89,12 @@ export {
   firstColor_major,
   firstColorTransparent,
   baseURL,
+  baseURLTransaction,
   cardTextColor,
   cardTextColor_2,
   strongColor,
   defaultUserPhotoURL,
-  warningColor
+  warningColor,
+  API_PAGARME_CRYPT,
+  API_PAGARME
 };
