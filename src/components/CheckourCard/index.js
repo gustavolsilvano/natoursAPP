@@ -1,37 +1,47 @@
-import React, { useState } from 'react';
-import {
-  Text,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  SafeAreaView
-} from 'react-native';
+import React, { useContext, useState, useRef } from 'react';
+import { Text, KeyboardAvoidingView, SafeAreaView, View } from 'react-native';
 import Button from '../Button';
-import FillField from '../../components/FillField';
+import { CreditCardInput } from 'react-native-credit-card-input';
+import MessageContext from '../../context/MessageContext';
 
-import { Feather } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import styles from './style';
-import { firstColor_minor, firstColor_major } from '../../constant/constant';
+import {
+  firstColor_minor,
+  firstColor_major,
+  height
+} from '../../constant/constant';
 
-const CheckoutCard = ({ tour, yesCallback, noCallback, closeCallback }) => {
-  // STATE
-  const [cardName, setCardName] = useState('abc');
-  const [cardNumber, setCardNumber] = useState('4111111111111111');
-  const [cvv, setCvv] = useState('123');
-  const [cardExpiration, setCardExpiration] = useState('1225');
+const CheckoutCard = ({ tour, yesCallback, noCallback }) => {
+  // REF
 
-  const [cardNameFocus, setCardNameFocus] = useState(false);
-  const [cardNumberFocus, setCardNumberFocus] = useState(false);
-  const [cvvFocus, setCvvFocus] = useState(false);
-  const [cardExpirationFocus, setCardExpirationFocus] = useState(false);
+  const cardRef = useRef(null);
+  // CONTEXT
+  const handleMessage = useContext(MessageContext);
 
   // FUNCTION
-  const handleResetNextFocus = () => {
-    setCardNameFocus(false);
-    setCardNumberFocus(false);
-    setCvvFocus(false);
-    setCardExpirationFocus(false);
+
+  const handleSubmit = () => {
+    if (!cardRef.current.valid) {
+      return handleMessage(true, 'Card invalid. Please check your inputs.');
+    }
+    yesCallback(
+      cardRef.current.cardName,
+      cardRef.current.cardNumber,
+      cardRef.current.cardExpiration,
+      cardRef.current.cvv
+    );
+    return;
+  };
+  const handleCardValue = form => {
+    cardRef.current = {
+      cardName: form.values.name,
+      cardNumber: form.values.number,
+      cardExpiration: form.values.expiry,
+      cvv: form.values.cvc,
+      valid: form.valid
+    };
   };
 
   return (
@@ -39,97 +49,38 @@ const CheckoutCard = ({ tour, yesCallback, noCallback, closeCallback }) => {
       <KeyboardAvoidingView
         contentContainerStyle={{ flex: 1 }}
         enabled={true}
-        keyboardVerticalOffset={-100}
+        keyboardVerticalOffset={Math.round(-height / 2)}
         behavior={'position'}
         style={{ flex: 1 }}
       >
+        <View stye={styles.containerTourName}>
+          <Text style={styles.tourName}>{`${tour.name}`}</Text>
+        </View>
+        <View style={styles.containerButton}>
+          <Button
+            text={`Confirm`}
+            style={styles.button}
+            callBack={() => handleSubmit()}
+          />
+          <Button text="Back" style={styles.noButton} callBack={noCallback} />
+        </View>
         <LinearGradient
           colors={[firstColor_major, firstColor_minor]}
           start={[0, 0]}
           end={[0, 1.4]}
           style={styles.container}
         >
-          <Text>{`Tour: ${tour.name}`}</Text>
-          <FillField
-            field="Card Number"
-            textType="creditCardNumber"
-            type="number"
-            styleText={styles.cardNumberInput}
-            styleContainer={styles.containerFillField}
-            styleTextInput={styles.inputTextFillField}
-            onChangeTextInput={val => setCardNumber(val)}
-            setNext={() => {
-              if (!cvv) return setCvvFocus(true);
-              if (!cardName) return setCardNameFocus(true);
-              if (!cardExpiration) return setCardExpirationFocus(true);
-              if (cvv && cardName && cardExpiration) return yesCallback();
-            }}
-            resetNextFocus={handleResetNextFocus}
-            focus={cardNumberFocus}
+          <View style={{ height: 100 }} />
+          <CreditCardInput
+            onChange={handleCardValue}
+            requiresName={true}
+            allowScroll={true}
+            inputStyle={styles.creditCard}
           />
-          <FillField
-            field="CVV"
-            type="number"
-            styleText={styles.cardNumberInput}
-            styleContainer={styles.containerFillField}
-            styleTextInput={styles.inputTextFillField}
-            onChangeTextInput={val => setCvv(val)}
-            setNext={() => {
-              if (!cardName) return setCardNameFocus(true);
-              if (!cardNumber) return setCardNumberFocus(true);
-              if (!cardExpiration) return setCardExpirationFocus(true);
-              if (cardName && cardNumber && cardExpiration)
-                return yesCallback();
-            }}
-            resetNextFocus={handleResetNextFocus}
-            focus={cvvFocus}
-          />
-          <FillField
-            field="Card Name"
-            type="fullname"
-            styleText={styles.cardNumberInput}
-            styleContainer={styles.containerFillField}
-            styleTextInput={styles.inputTextFillField}
-            onChangeTextInput={val => setCardName(val)}
-            setNext={() => {
-              if (!cvv) return setCvvFocus(true);
-              if (!cardNumber) return setCardNumberFocus(true);
-              if (!cardExpiration) return setCardExpirationFocus(true);
-              if (cvv && cardNumber && cardExpiration) return yesCallback();
-            }}
-            resetNextFocus={handleResetNextFocus}
-            focus={cardNameFocus}
-          />
-          <FillField
-            field="Card Expiration"
-            type="number"
-            styleText={styles.cardNumberInput}
-            styleContainer={styles.containerFillField}
-            styleTextInput={styles.inputTextFillField}
-            onChangeTextInput={val => setCardExpiration(val)}
-            setNext={() => {
-              if (!cvv) return setCvvFocus(true);
-              if (!cardName) return setCardNameFocus(true);
-              if (!cardNumber) return setCardNumberFocus(true);
-              if (cvv && cardName && cardNumber)
-                return yesCallback(cardName, cardNumber, cardExpiration, cvv);
-            }}
-            resetNextFocus={handleResetNextFocus}
-            focus={cardExpirationFocus}
-          />
-          <TouchableOpacity
-            style={styles.containerIconClose}
-            onPress={closeCallback}
-          >
-            <Feather name="x" style={styles.iconClose} />
-          </TouchableOpacity>
-          <Button
-            text="Confirm"
-            callBack={() =>
-              yesCallback(cardName, cardNumber, cardExpiration, cvv)
-            }
-          />
-          <Button text="Back" style={styles.noButton} callBack={noCallback} />
+          <View style={styles.containerPrice}>
+            <Text style={styles.textTour}> {`TOTAL: `}</Text>
+            <Text style={styles.textPrice}> {`R$${tour.price}`}</Text>
+          </View>
         </LinearGradient>
       </KeyboardAvoidingView>
     </SafeAreaView>

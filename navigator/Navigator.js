@@ -10,6 +10,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 // AUTH SCREENS
 import LoginScreen from '../src/screens/AuthScreen/LoginScreen';
 import LoadingUserByTokenScreen from '../src/screens/AuthScreen/LoadingUserByTokenScreen';
+import FirstLoginScreen from '../src/screens/AuthScreen/FirstLoginScreen';
 
 // MAIN SCREEN
 import HomeScreen from '../src/screens/TabScreens/HomeScreen';
@@ -25,6 +26,11 @@ import PasswordScreen from '../src/screens/AccountTabScreen/PasswordScreen';
 import MyBookingsScreen from '../src/screens/AccountTabScreen/MyBookingsScreen';
 import MyReviewsScreen from '../src/screens/AccountTabScreen/MyReviewsScreen';
 import MyBillingScreen from '../src/screens/AccountTabScreen/MyBillingScreen';
+
+// CREATE ACCOUNT
+import PersonalScreen from '../src/screens/AuthScreen/CreateAccoutTab/PersonalScreen';
+import AdressScreen from '../src/screens/AuthScreen/CreateAccoutTab/AdressScreen';
+import PhotoNSubmitScreen from '../src/screens/AuthScreen/CreateAccoutTab/PhotoNSubmitScreen';
 
 import Header from '../src/components/Header';
 import HeaderDetail from '../src/components/TopHeaderDetail';
@@ -137,12 +143,40 @@ MainNavigator.navigationOptions = {
   headerShown: false
 };
 
-const AuthStack = createStackNavigator(
+const CreateAccountTab = createMaterialTopTabNavigator(
   {
-    Login: LoginScreen
+    Personal: PersonalScreen,
+    Adress: AdressScreen,
+    PhotoNSubmit: PhotoNSubmitScreen
   },
   {
-    initialRouteName: 'Login'
+    initialRouteName: 'Personal',
+    headerShown: false,
+    tabBarOptions: {
+      labelStyle: {
+        fontSize: 14,
+        color: textColor_2,
+        bottom: -height / 50,
+        width: width / 4
+      },
+      style: {
+        backgroundColor: firstColor
+      }
+    }
+  }
+);
+
+const AuthStack = createStackNavigator(
+  {
+    Login: LoginScreen,
+    CreateAccount: CreateAccountTab,
+    FirstLogin: FirstLoginScreen
+  },
+  {
+    defaultNavigationOptions: {
+      headerShown: false
+    },
+    initialRouteName: 'FirstLogin'
   }
 );
 

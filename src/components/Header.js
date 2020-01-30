@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   container: {
     width,
     position: 'absolute',
-    top: -height / 11,
+    top: -height / 12,
     width
   },
   image: {

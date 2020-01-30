@@ -47,7 +47,6 @@ const EditScreen = ({ navigation }) => {
   const setComp = useContext(PopupContext);
 
   // STATE
-  const [te, setTe] = useState(null);
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
   const [photo, setPhoto] = useState(`${imageUserURL}/${user.photo}`);
@@ -162,7 +161,7 @@ const EditScreen = ({ navigation }) => {
           <FillField
             field="Name"
             type="fullname"
-            initialValue={user.name}
+            value={user.name}
             focus={nameFocus}
             resetNextFocus={handleResetNextFocus}
             setNext={() => {
@@ -174,7 +173,7 @@ const EditScreen = ({ navigation }) => {
           <FillField
             field="Email address"
             type="email"
-            initialValue={user.email}
+            value={user.email}
             focus={emailFocus}
             resetNextFocus={handleResetNextFocus}
             setNext={() => {

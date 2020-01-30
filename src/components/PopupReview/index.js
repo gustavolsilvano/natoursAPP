@@ -5,8 +5,7 @@ import {
   TouchableOpacity,
   TextInput,
   KeyboardAvoidingView,
-  SafeAreaView,
-  BackHandler
+  SafeAreaView
 } from 'react-native';
 import Button from '../Button';
 import { Feather } from '@expo/vector-icons';
@@ -28,11 +27,6 @@ const PopupReview = ({
   tourIni,
   rateIni
 }) => {
-  // INITIALIZING
-  BackHandler.addEventListener('hardwareBackPress', () => {
-    closeCallback();
-  });
-
   // CONST
   const DEFAULT_STAR_COLOR = [
     firstColor_minor,

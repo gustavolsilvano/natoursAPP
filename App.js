@@ -1,4 +1,5 @@
 import React from 'react';
+import { TouchableWithoutFeedback } from 'react-native';
 import Navigator from './navigator/Navigator';
 
 import { LoadingProvider } from './src/context/LoadingContext';
@@ -8,6 +9,7 @@ import { TourProvider } from './src/context/TourContext';
 import { ReviewProvider } from './src/context/ReviewContext';
 import { PopupProvider } from './src/context/PopupContext';
 import createStoreProvider from './src/context/createStoreProvider';
+import { NewUserProvider } from './src/context/newUserContext';
 
 const StoreProvider = createStoreProvider([
   LoadingProvider,
@@ -15,14 +17,21 @@ const StoreProvider = createStoreProvider([
   MessageProvider,
   TourProvider,
   ReviewProvider,
-  PopupProvider
+  PopupProvider,
+  NewUserProvider
 ]);
 
 const App = () => {
   return (
-    <StoreProvider>
-      <Navigator />
-    </StoreProvider>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        console.log('dismiss');
+      }}
+    >
+      <StoreProvider>
+        <Navigator />
+      </StoreProvider>
+    </TouchableWithoutFeedback>
   );
 };
 

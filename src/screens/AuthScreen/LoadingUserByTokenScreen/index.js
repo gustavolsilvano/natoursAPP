@@ -45,7 +45,7 @@ const LoadingUserByTokenScreen = ({ navigation }) => {
         }
       }
       handleLoading(false, '');
-      return navigation.navigate('Login');
+      return navigation.navigate('Auth');
     } catch (err) {
       console.log('Error loading local user', err);
       handleLoading(false, '');

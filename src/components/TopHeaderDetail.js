@@ -20,7 +20,7 @@ import {
   textColor_2
 } from '../constant/constant';
 
-const TopHeaderDetail = ({ navigation }) => {
+const TopHeaderDetail = () => {
   // CONTEXT
   const setComp = useContext(PopupContext);
   const { currentTour: tour, setCurrentTour } = useContext(TourContext);

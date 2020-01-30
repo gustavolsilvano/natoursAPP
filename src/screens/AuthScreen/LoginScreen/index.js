@@ -25,14 +25,10 @@ import { saveLocalUser } from '../../../functions/handleLocalUser';
 import { NavigationActions } from 'react-navigation';
 
 const LoginScreen = ({ navigation }) => {
-  // NAVIGATION
-
   // CONTEXT
 
   const handleLoading = useContext(LoadingContext);
-
   const { setCurrentUser } = useContext(UserContext);
-
   const handleWarning = useContext(MessageContext);
 
   // STATES
@@ -55,10 +51,18 @@ const LoginScreen = ({ navigation }) => {
     const user = { email, password };
     try {
       const response = await server.post('/api/v1/users/login', user);
+
+      if (response.data.message === 'checking email') {
+        navigation.navigate('FirstLogin');
+        handleLoading(false, '');
+        return;
+      }
+
       setCurrentUser({
         ...response.data.data.user,
         token: response.data.token
       });
+
       navigation.navigate(
         'App',
         {},
@@ -131,7 +135,6 @@ const LoginScreen = ({ navigation }) => {
               <TextButton
                 text="Forgot my password"
                 callBack={() => {
-                  navigation.dispatch(loginScreenDefault);
                   navigation.navigate('Forgot');
                 }}
               />
@@ -140,8 +143,7 @@ const LoginScreen = ({ navigation }) => {
             <TouchableOpacity
               style={styles.containerNewUser}
               onPress={() => {
-                navigation.dispatch(loginScreenDefault);
-                navigation.navigate('NewUser');
+                navigation.navigate('CreateAccount');
               }}
             >
               <Text style={styles.clickHereText}>Click here to create a </Text>
@@ -152,10 +154,6 @@ const LoginScreen = ({ navigation }) => {
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
-};
-
-LoginScreen.navigationOptions = {
-  headerShown: false
 };
 
 export default LoginScreen;

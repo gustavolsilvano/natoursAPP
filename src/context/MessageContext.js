@@ -30,7 +30,7 @@ export const MessageProvider = ({ children }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 100,
-    zIndex: 100
+    zIndex: 1000
   }
 });
 
