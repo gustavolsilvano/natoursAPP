@@ -11,6 +11,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import LoginScreen from '../src/screens/AuthScreen/LoginScreen';
 import LoadingUserByTokenScreen from '../src/screens/AuthScreen/LoadingUserByTokenScreen';
 import FirstLoginScreen from '../src/screens/AuthScreen/FirstLoginScreen';
+import ForgotPasswordScreen from '../src/screens/AuthScreen/ForgotPasswordScreen';
 
 // MAIN SCREEN
 import HomeScreen from '../src/screens/TabScreens/HomeScreen';
@@ -170,13 +171,14 @@ const AuthStack = createStackNavigator(
   {
     Login: LoginScreen,
     CreateAccount: CreateAccountTab,
-    FirstLogin: FirstLoginScreen
+    FirstLogin: FirstLoginScreen,
+    ForgotPassword: ForgotPasswordScreen
   },
   {
     defaultNavigationOptions: {
       headerShown: false
     },
-    initialRouteName: 'FirstLogin'
+    initialRouteName: 'Login'
   }
 );
 

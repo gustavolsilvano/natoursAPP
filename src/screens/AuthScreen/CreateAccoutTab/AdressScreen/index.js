@@ -81,7 +81,7 @@ const AdressScreen = () => {
     Keyboard.dismiss();
   };
   const show = () => {
-    setMarginLast(height / 3);
+    setMarginLast(height / 2);
   };
   const hide = () => {
     setMarginLast(0);

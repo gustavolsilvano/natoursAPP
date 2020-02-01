@@ -10,47 +10,34 @@ import FillField from '../../../components/FillField';
 import Button from '../../../components/Button';
 import { LinearGradient } from 'expo-linear-gradient';
 import { logo } from '../../../constant/constant';
-import { saveLocalUser } from '../../../functions/handleLocalUser';
 
 import server from '../../../api/server';
 
 import LoadingContext from '../../../context/LoadingContext';
-import UserContext from '../../../context/UserContext';
 import MessageContext from '../../../context/MessageContext';
 
-import { NavigationActions } from 'react-navigation';
 import styles from './style';
 
-const FirstLoginScreen = ({ navigation }) => {
+const ForgotPasswordScreen = ({ navigation }) => {
   // CONTEXT
-
   const handleLoading = useContext(LoadingContext);
-  const { currentUser: user, setCurrentUser } = useContext(UserContext);
   const handleWarning = useContext(MessageContext);
 
   // STATE
-  const [code, setCode] = useState(null);
+  const [email, setEmail] = useState(null);
 
   // FUNCTIONS
   const handleSubmit = async () => {
     try {
       handleLoading(true, 'Loading...');
-      const response = await server.patch(`/api/v1/users/checkEmail/${code}`);
-      setCurrentUser({
-        ...response.data.data.user,
-        token: response.data.token
-      });
-      navigation.navigate(
-        'App',
-        {},
-        NavigationActions.navigate({ routeName: 'Main' })
-      );
-      saveLocalUser(response.data.token);
+      await server.post(`/api/v1/users/forgotPassword`, { email });
+      navigation.pop();
+      handleWarning(true, 'Email with temporary password sent successfully');
       handleLoading(false, '');
     } catch (err) {
       handleLoading(false, '');
       if (err.response) handleWarning(true, err.response.data.message);
-      console.log('Erro activating account', err || err.response);
+      console.log('Erro forgeting password', err || err.response);
     }
   };
 
@@ -73,20 +60,21 @@ const FirstLoginScreen = ({ navigation }) => {
             <Image source={logo} style={styles.logo} resizeMode={'contain'} />
           </View>
           <View style={styles.containerText}>
-            <Text style={styles.title}>WELCOME TO NATOURS!</Text>
+            <Text style={styles.title}>FORGOT YOUR PASSWORD?</Text>
             <Text style={styles.subTitle}>
-              PLEASE INSERT BELOW YOUR 6 DIGIT CODE THAT WAS SENT TO YOUR EMAIL
+              INSERT BELOW YOUR EMAIL ACCOUNT. WE'LL RESET YOUR PASSWORD AND
+              SEND TO YOUR EMAIL A TEMPORARY ONE.
             </Text>
           </View>
 
           <View style={styles.containerBottom}>
             <FillField
-              type="fullname"
-              field="Email Code"
+              type="email"
+              field="Email "
               styleTextInput={styles.textInput}
               styleContainer={styles.containerTextInput}
               styleText={styles.textTextInput}
-              onChangeTextInput={val => setCode(val)}
+              onChangeTextInput={val => setEmail(val)}
               setNext={handleSubmit}
             />
             <Button text="SUBMIT" callBack={handleSubmit} />
@@ -97,4 +85,4 @@ const FirstLoginScreen = ({ navigation }) => {
   );
 };
 
-export default FirstLoginScreen;
+export default ForgotPasswordScreen;

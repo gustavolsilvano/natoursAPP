@@ -1,6 +1,7 @@
 {
   "expo": {
-    "name": "Natour",
+    "name": "NatourAPP",
+    "description": "APP version of the natour site",
     "slug": "natour",
     "privacy": "public",
     "sdkVersion": "36.0.0",
@@ -8,10 +9,11 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "backgroundColor": "#55C57A",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splashScreen2.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#55C57A"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -21,7 +23,13 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.tucdev.natours",
+      "buildNumber": "1.0.0",
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.tucdev.natours",
+      "versionCode": 1
     }
   }
 }

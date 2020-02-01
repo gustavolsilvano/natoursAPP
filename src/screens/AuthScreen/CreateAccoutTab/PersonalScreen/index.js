@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef, useEffect } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import { FlatList, Keyboard, SafeAreaView } from 'react-native';
 
 import NewUserContext from '../../../../context/newUserContext';
@@ -124,7 +124,7 @@ const PersonalScreen = () => {
     Keyboard.dismiss();
   };
   const show = () => {
-    setMarginLast(height / 3);
+    setMarginLast(height / 2);
   };
   const hide = () => {
     setMarginLast(0);

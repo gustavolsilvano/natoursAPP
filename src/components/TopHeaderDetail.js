@@ -56,7 +56,7 @@ const TopHeaderDetail = () => {
       handleLoading(false, '');
       return;
     } catch (err) {
-      console.log('Error sending booking request', err.response.message || err);
+      console.log('Error sending booking request', err.response);
       if (err.response) handleMessage(true, err.response.message);
       handleLoading(false, '');
     }

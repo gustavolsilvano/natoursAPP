@@ -1,5 +1,4 @@
 import React from 'react';
-import { TouchableWithoutFeedback } from 'react-native';
 import Navigator from './navigator/Navigator';
 
 import { LoadingProvider } from './src/context/LoadingContext';
@@ -23,15 +22,9 @@ const StoreProvider = createStoreProvider([
 
 const App = () => {
   return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        console.log('dismiss');
-      }}
-    >
-      <StoreProvider>
-        <Navigator />
-      </StoreProvider>
-    </TouchableWithoutFeedback>
+    <StoreProvider>
+      <Navigator />
+    </StoreProvider>
   );
 };
 

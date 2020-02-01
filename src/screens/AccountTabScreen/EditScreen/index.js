@@ -108,7 +108,7 @@ const EditScreen = ({ navigation }) => {
   };
 
   const handleUserUpdate = async () => {
-    const data = createForm(imageToUpload.current, name, email);
+    const data = createForm(imageToUpload.current, { name, email });
     try {
       handleLoading(true, 'Loading...');
       const response = await server.patch('/api/v1/users/updateMe', data, {
@@ -161,7 +161,7 @@ const EditScreen = ({ navigation }) => {
           <FillField
             field="Name"
             type="fullname"
-            value={user.name}
+            value={name}
             focus={nameFocus}
             resetNextFocus={handleResetNextFocus}
             setNext={() => {
@@ -173,7 +173,7 @@ const EditScreen = ({ navigation }) => {
           <FillField
             field="Email address"
             type="email"
-            value={user.email}
+            value={email}
             focus={emailFocus}
             resetNextFocus={handleResetNextFocus}
             setNext={() => {

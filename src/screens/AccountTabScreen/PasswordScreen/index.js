@@ -52,6 +52,7 @@ const PasswordScreeen = () => {
         ...response.data.data.user,
         token: response.data.token
       });
+      handleMessage(true, 'Password changed successfully');
       handleLoading(false, '');
     } catch (err) {
       console.log('Error updating password', err.response || err);

@@ -21,8 +21,15 @@ import styles from './style';
 
 import pickImage from '../../../../functions/handleSelectImage';
 import createForm from '../../../../functions/createForm';
+import { NavigationActions, StackActions } from 'react-navigation';
 
 const PhotoNSubmitScreen = ({ navigation }) => {
+  // NAVIGATION
+  const loginScreenDefault = StackActions.reset({
+    index: 0,
+    actions: [NavigationActions.navigate({ routeName: 'Login' })]
+  });
+
   // REF
   const imageToUpload = useRef(null);
 
@@ -41,10 +48,9 @@ const PhotoNSubmitScreen = ({ navigation }) => {
 
     // Adjusting phone number
     let str = newUser['PHONE NUMBER'];
-    const phone = `+55${str.slice(1, 3)}${str.slice(5, 10)}${str.slice(
-      11,
-      15
-    )}`;
+    const phone = [
+      `+55${str.slice(1, 3)}${str.slice(5, 10)}${str.slice(11, 15)}`
+    ];
     // Adjusting ZIP CODE
     str = newUser['ZIP CODE'].split('-');
     const zipCode = `${str[0]}${str[1]}`;
@@ -63,15 +69,15 @@ const PhotoNSubmitScreen = ({ navigation }) => {
       email: newUser.EMAIL,
       password: newUser.PASSWORD,
       passwordConfirm: newUser['CONFIRM PASSWORD'],
-      cpfNumber: dataHandled.cpf,
+      cpfNumber: dataHandled.cpf.toString(),
       phoneNumber: dataHandled.phone,
-      birthday: dataHandled.birthday,
-      state: newUser.STATE,
-      city: newUser.CITY,
-      neighborhood: newUser.NEIGHBORHOOD,
-      street: newUser.STREET,
-      number: newUser.NUMBER,
-      zipcode: dataHandled.zipCode
+      birthday: dataHandled.birthday.toString(),
+      state: newUser.STATE.toString(),
+      city: newUser.CITY.toString(),
+      neighborhood: newUser.NEIGHBORHOOD.toString(),
+      street: newUser.STREET.toString(),
+      number: newUser.NUMBER.toString(),
+      zipcode: dataHandled.zipCode.toString()
     };
     const data = createForm(imageToUpload.current);
     try {
@@ -84,7 +90,7 @@ const PhotoNSubmitScreen = ({ navigation }) => {
           user: userId
         }
       });
-      navigation.pop();
+      navigation.dispatch(loginScreenDefault);
       handleMessage(
         true,
         'Account created! Check your email for your 6 digit code! Remember that you have 10 minutes to activate your account.'

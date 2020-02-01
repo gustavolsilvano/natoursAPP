@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: firstColor,
-    justifyContent: 'center',
     alignItems: 'center'
   },
   containerTextInput: {
@@ -48,12 +47,13 @@ const styles = StyleSheet.create({
     width: width / 3
   },
   title: {
-    fontSize: 24,
+    fontSize: 22,
     marginBottom: 20,
-    color: firstColor_minor
+    color: firstColor_minor,
+    textAlign: 'center'
   },
   subTitle: {
-    fontSize: 16,
+    fontSize: 14,
     textAlign: 'center',
     color: firstColor_minor
   }

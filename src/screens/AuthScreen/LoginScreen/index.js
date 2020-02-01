@@ -22,9 +22,15 @@ import UserContext from '../../../context/UserContext';
 import MessageContext from '../../../context/MessageContext';
 
 import { saveLocalUser } from '../../../functions/handleLocalUser';
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, StackActions } from 'react-navigation';
 
 const LoginScreen = ({ navigation }) => {
+  // NAVIGATION
+  const loginScreenDefault = StackActions.reset({
+    index: 0,
+    actions: [NavigationActions.navigate({ routeName: 'Login' })]
+  });
+
   // CONTEXT
 
   const handleLoading = useContext(LoadingContext);
@@ -53,6 +59,7 @@ const LoginScreen = ({ navigation }) => {
       const response = await server.post('/api/v1/users/login', user);
 
       if (response.data.message === 'checking email') {
+        navigation.dispatch(loginScreenDefault);
         navigation.navigate('FirstLogin');
         handleLoading(false, '');
         return;
@@ -135,7 +142,8 @@ const LoginScreen = ({ navigation }) => {
               <TextButton
                 text="Forgot my password"
                 callBack={() => {
-                  navigation.navigate('Forgot');
+                  navigation.dispatch(loginScreenDefault);
+                  navigation.navigate('ForgotPassword');
                 }}
               />
             </View>
@@ -143,6 +151,7 @@ const LoginScreen = ({ navigation }) => {
             <TouchableOpacity
               style={styles.containerNewUser}
               onPress={() => {
+                navigation.dispatch(loginScreenDefault);
                 navigation.navigate('CreateAccount');
               }}
             >

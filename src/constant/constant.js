@@ -59,7 +59,9 @@ const warningColor = '#EA6172';
 
 // const profilePlaceHolder = require('../../resource/profilePlaceholder.jpg');
 const baseURL =
-  env === 'dev' ? 'http://10.0.2.2:3000' : 'https://natours-mab.herokuapp.com';
+  env === 'dev'
+    ? 'https://d97e0b3e.ngrok.io'
+    : 'https://natours-mab.herokuapp.com';
 
 const baseURLTransaction = 'https://api.pagar.me/1';
 

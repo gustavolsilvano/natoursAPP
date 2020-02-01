@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { textColor, firstColor, cardTextColor_2 } from '../constant/constant';
 
@@ -37,8 +37,11 @@ const FillField = ({
       return { ...defaultConfig, keyboardType: 'number-pad' };
   };
 
+  // CONTEXT
+
+  // STATE
   const [inputValue, setInputValue] = useState(value);
-  const [config, setConfig] = useState(initialConfig());
+  const [config] = useState(initialConfig());
 
   const inputRef = useRef();
 
